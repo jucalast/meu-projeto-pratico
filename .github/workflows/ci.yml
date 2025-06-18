@@ -1,0 +1,35 @@
+# Nome do nosso workflow
+name: CI - Testes da Calculadora
+
+# Gatilhos: Quando este workflow deve rodar?
+# - Quando houver um push para qualquer branch
+# - Quando um Pull Request for aberto/atualizado
+on: [push, pull_request]
+
+# Trabalhos (Jobs): O que o workflow deve fazer?
+jobs:
+  # Nome do nosso job (pode ser qualquer nome)
+  build-and-test:
+    # Máquina virtual que será usada para rodar o job
+    runs-on: ubuntu-latest
+
+    # Passos (Steps) que o job executará em sequência
+    steps:
+      # 1. Pega o código do repositório para a máquina virtual
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Configura o ambiente Node.js para rodar nosso teste
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Usar a versão 20 do Node.js
+
+      # 3. Rodar o teste!
+      # Usamos um truque para carregar a função e o teste juntos.
+      - name: Rodar o teste da calculadora
+        run: |
+          # Concatena a função real e o arquivo de teste em um único script
+          cat js/calculadora.js tests/calculadora.test.js > temp_test.js
+          # Executa o script combinado com o Node.js
+          node temp_test.js

@@ -25,11 +25,7 @@ jobs:
         with:
           node-version: '20' # Usar a versão 20 do Node.js
 
-      # 3. Rodar o teste!
-      # Usamos um truque para carregar a função e o teste juntos.
+           # 3. Rodar o teste!
+      # Agora podemos rodar o arquivo de teste diretamente com o Node.js
       - name: Rodar o teste da calculadora
-        run: |
-          # Concatena a função real e o arquivo de teste em um único script
-          cat js/calculadora.js tests/calculadora.test.js > temp_test.js
-          # Executa o script combinado com o Node.js
-          node temp_test.js
+        run: node tests/calculadora.test.js
